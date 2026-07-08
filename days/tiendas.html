@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tiendas | NYC 2026</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <nav class="site-nav">
+    <span class="nav-logo">NYC ✈️</span>
+    <a href="../index.html" class="nav-link">Inicio</a>
+    <a href="dia1.html" class="nav-link">Día 1</a>
+    <a href="dia2.html" class="nav-link">Día 2</a>
+    <a href="dia3.html" class="nav-link">Día 3</a>
+    <a href="dia4.html" class="nav-link">Día 4</a>
+    <a href="dia5.html" class="nav-link">Día 5</a>
+    <a href="dia6.html" class="nav-link">Día 6</a>
+    <a href="tiendas.html" class="nav-link active">🛍 Tiendas</a>
+  </nav>
+
+  <header class="page-header shops-header">
+    <div class="page-header-inner">
+      <a href="../index.html" class="back-btn">← Volver al inicio</a>
+      <p class="page-eyebrow">Anexo · Todos los días</p>
+      <h1 class="page-title">🛍 Tiendas</h1>
+      <span class="page-date-badge">Marca las que ya habéis visto — se comparte en tiempo real</span>
+    </div>
+  </header>
+
+  <main class="day-content">
+
+    <div class="shared-notice">
+      <span>☁️ Las tiendas marcadas se <strong>comparten entre todos</strong> — lo que marque papá aparece en tu pantalla al instante.</span>
+      <span id="sync-status" class="sync-status">● Conectando…</span>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="shops-progress">
+      <span class="shops-progress-label">Visitadas</span>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+      <span class="shops-progress-count" id="progress-count">0 / 15</span>
+      <button class="reset-btn" onclick="resetShops()">Resetear</button>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="shops-filter">
+      <button class="filter-btn active" data-filter="all">Todos los días</button>
+      <button class="filter-btn" data-filter="2">Día 2</button>
+      <button class="filter-btn" data-filter="4">Día 4</button>
+      <button class="filter-btn" data-filter="5">Día 5</button>
+      <button class="filter-btn" data-filter="6">Día 6</button>
+    </div>
+
+    <!-- SHOPS GRID -->
+    <!-- data-days = comma-separated list of days this shop is available -->
+    <div class="shops-grid">
+
+      <div class="shop-card" data-days="4">
+        <input type="checkbox" class="shop-checkbox" data-shop="guess-levis" />
+        <div class="shop-info">
+          <div class="shop-name">Guess · Levi's</div>
+          <div class="shop-desc">Tiendas en SoHo, al sur de la ruta del día 4.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 4</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="4">
+        <input type="checkbox" class="shop-checkbox" data-shop="bloomingdales-soho" />
+        <div class="shop-info">
+          <div class="shop-name">Bloomingdale's · Crocs · UGG · Alo</div>
+          <div class="shop-desc">Grandes almacenes y marcas de moda en SoHo.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 4</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="4">
+        <input type="checkbox" class="shop-checkbox" data-shop="adidas-nike" />
+        <div class="shop-info">
+          <div class="shop-name">Adidas · Nike · New Era · Gymshark</div>
+          <div class="shop-desc">Marcas deportivas en la ruta del día 4.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 4</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="4">
+        <input type="checkbox" class="shop-checkbox" data-shop="forbidden-planet" />
+        <div class="shop-info">
+          <div class="shop-name">Forbidden Planet</div>
+          <div class="shop-desc">Tienda friki imprescindible — cómics, figuras, merchandising.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 4</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="4">
+        <input type="checkbox" class="shop-checkbox" data-shop="harry-potter" />
+        <div class="shop-info">
+          <div class="shop-name">Harry Potter Shop</div>
+          <div class="shop-desc">Tienda oficial de Harry Potter en Broadway.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 4</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="5,6">
+        <input type="checkbox" class="shop-checkbox" data-shop="apple" />
+        <div class="shop-info">
+          <div class="shop-name">Tienda Apple</div>
+          <div class="shop-desc">La icónica tienda de cristal en la 5ª Avenida. Abre las 24h.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 5</span><span class="shop-day-tag">Día 6</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="5,6">
+        <input type="checkbox" class="shop-checkbox" data-shop="tiffanys" />
+        <div class="shop-info">
+          <div class="shop-name">Tiffany's</div>
+          <div class="shop-desc">La joyería más famosa del mundo en la 5ª Avenida.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 5</span><span class="shop-day-tag">Día 6</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="5,6">
+        <input type="checkbox" class="shop-checkbox" data-shop="saks" />
+        <div class="shop-info">
+          <div class="shop-name">Saks Fifth Avenue</div>
+          <div class="shop-desc">Grandes almacenes de lujo frente al Rockefeller Center.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 5</span><span class="shop-day-tag">Día 6</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="2,3,4,5,6">
+        <input type="checkbox" class="shop-checkbox" data-shop="lego-nintendo" />
+        <div class="shop-info">
+          <div class="shop-name">Lego · Nintendo · Disney · M&amp;M</div>
+          <div class="shop-desc">Tiendas oficiales cerca del hotel en Times Square.</div>
+          <div class="shop-days"><span class="shop-day-tag">Todos los días</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="2,3,4,5,6">
+        <input type="checkbox" class="shop-checkbox" data-shop="nba-store" />
+        <div class="shop-info">
+          <div class="shop-name">NBA Store</div>
+          <div class="shop-desc">Tienda oficial de la NBA en la 5ª Avenida.</div>
+          <div class="shop-days"><span class="shop-day-tag">Todos los días</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="2,3,4,5,6">
+        <input type="checkbox" class="shop-checkbox" data-shop="north-face" />
+        <div class="shop-info">
+          <div class="shop-name">The North Face</div>
+          <div class="shop-desc">Tienda de ropa outdoor cerca del hotel.</div>
+          <div class="shop-days"><span class="shop-day-tag">Todos los días</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="6">
+        <input type="checkbox" class="shop-checkbox" data-shop="macys" />
+        <div class="shop-info">
+          <div class="shop-name">Macy's</div>
+          <div class="shop-desc">La tienda más grande del mundo. Reservar una tarde entera.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 6</span><span class="shop-day-tag">Preferente</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="6">
+        <input type="checkbox" class="shop-checkbox" data-shop="times-sq-tiendas" />
+        <div class="shop-info">
+          <div class="shop-name">Tiendas Times Square</div>
+          <div class="shop-desc">Explorar las tiendas de Times Square en el último día.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 6</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="6">
+        <input type="checkbox" class="shop-checkbox" data-shop="teleferico" />
+        <div class="shop-info">
+          <div class="shop-name">Teleférico Roosevelt Island</div>
+          <div class="shop-desc">Alternativa al shopping: teleférico con vistas únicas al skyline.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 6</span><span class="shop-day-tag">Opcional</span></div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-days="4">
+        <input type="checkbox" class="shop-checkbox" data-shop="union-square-market" />
+        <div class="shop-info">
+          <div class="shop-name">Union Square Greenmarket</div>
+          <div class="shop-desc">Mercado de agricultores — fruta, artesanía, ambiente local.</div>
+          <div class="shop-days"><span class="shop-day-tag">Día 4</span><span class="shop-day-tag">Opcional</span></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/shops.js"></script>
+  <script>
+    // ── Day filter ──────────────────────────────────────────────────────────
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.shop-card').forEach(card => {
+          if (filter === 'all') {
+            card.classList.remove('hidden');
+          } else {
+            const days = (card.dataset.days || '').split(',');
+            card.classList.toggle('hidden', !days.includes(filter));
+          }
+        });
+        // Update progress count to visible only
+        updateProgress();
+      });
+    });
+
+    // Override updateProgress to count only visible cards
+    function updateProgress() {
+      const all      = document.querySelectorAll('.shop-card:not(.hidden) .shop-checkbox');
+      const checked  = document.querySelectorAll('.shop-card:not(.hidden) .shop-checkbox:checked');
+      const bar   = document.getElementById('progress-bar');
+      const count = document.getElementById('progress-count');
+      const total = document.querySelectorAll('.shop-checkbox').length;
+      const totalChecked = document.querySelectorAll('.shop-checkbox:checked').length;
+      if (bar)   bar.style.width = total ? (totalChecked / total * 100) + '%' : '0%';
+      if (count) count.textContent = `${totalChecked} / ${total}`;
+    }
+  </script>
+</body>
+</html>
