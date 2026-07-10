@@ -54,6 +54,29 @@ img { display: block; }
 }
 .site-nav::-webkit-scrollbar { display: none; }
 
+.maps-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 100px;
+  font-size: 0.83rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  transition: background 0.18s;
+}
+.maps-link-btn:hover { background: var(--navy); }
+
+.mapa-dia {
+  width: 80%;
+  height: auto;
+  display: block;
+  margin: 0.75rem auto 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
 .nav-logo {
   font-family: 'Pacifico', cursive;
   color: var(--gold);
